@@ -7,11 +7,15 @@ import { CreateUserDto } from './users.dto';
 export class UsersService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async getUsers(): Promise<User[]> {
+  async get(): Promise<User[]> {
     return this.prisma.user.findMany();
   }
 
-  async createUser(user: CreateUserDto): Promise<User> {
-    return this.prisma.user.create({ data: user });
+  async upsert(user: CreateUserDto): Promise<User> {
+    return this.prisma.user.upsert({
+      where: { email: user.email },
+      update: user,
+      create: user,
+    });
   }
 }

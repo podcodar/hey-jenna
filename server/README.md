@@ -9,14 +9,42 @@ This is a [Nest](https://github.com/nestjs/nest) project.
 
 Before running this project make sure you have already installed:
 
+- NVM
 - Node 22.x
 - pnpm
 - npx
 
 ## Installation
 
+Make sure to first install all node dependencies for the project:
+
 ```bash
-$ pnpm install
+pnpm install
+```
+
+### Database setup
+
+Mainly, if you're running the App on a fresh Database you need to setup migrations and seeds on it before using
+Jenna services. To achieve that please run:
+
+```bash
+# Run migrations 
+npx prisma migrate dev
+
+# Creates new migration / Change NAME to a fitting migration name
+npx prisma migrate dev --name NAME
+
+# Setup PrismaClient so you can access your DB with it. Remember to always run this command if the DB schema has changed
+npx prisma generate
+
+```
+
+From here, make sure to maintain your local database always up-to-date with latest changes, by running `npx prisma migrate dev` and `npx prisma generate` commands!!
+
+Prisma also provides a Dashboard where you can visualize and maintain your DB, to access it simply run:
+
+```bash
+npx prisma studio
 ```
 
 ## Running the app
@@ -30,19 +58,6 @@ $ pnpm run start:dev
 
 # production mode
 $ pnpm run start:prod
-```
-
-## Database management
-
-Prisma automatically invokes the `prisma generate` command for you. In the future, you need to run this command after
-every change to your Prisma models to update your generated Prisma Client.
-
-```bash
-# Updates client schema based on prisma
-$ prisma generate
-
-# Generates new migration called init
-$ npx prisma migrate dev --name init
 ```
 
 ## Test

@@ -1,4 +1,11 @@
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsString,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
+import { Transform } from 'class-transformer';
 
 export class CreateUserDto {
   @IsEmail()
@@ -7,5 +14,8 @@ export class CreateUserDto {
 
   @IsString()
   @IsNotEmpty()
+  @Transform(({ value }) => value.trim())
+  @MinLength(2)
+  @MaxLength(40)
   name: string;
 }
