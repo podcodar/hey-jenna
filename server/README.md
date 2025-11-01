@@ -24,8 +24,14 @@ pnpm install
 
 ### Database setup
 
-Mainly, if you're running the App on a fresh Database you need to setup migrations and seeds on it before using
-Jenna services. To achieve that please run:
+Mainly, if you're running the App on a fresh Database you need to setup migrations and seeds on it before using. First make sure you are running the database container, by running:
+
+```bash
+# Startup containers at docker-compose.yaml file
+docker compose up -d
+```
+
+ Then, make sure you are running the migrations and seeds on it before using. To achieve that please run:
 
 ```bash
 # Run migrations 
