@@ -6,14 +6,12 @@ import {
 import { promises as fs } from 'fs';
 import { join, resolve } from 'path';
 import { existsSync } from 'fs';
-
 @Injectable()
 export class SystemService {
   private readonly uploadsDir = join(process.cwd(), 'uploads');
 
   constructor() {
     this.findOrCreateUserDirectory(this.uploadsDir);
-    console.log('uploadsDir', this.uploadsDir);
   }
 
   /**
