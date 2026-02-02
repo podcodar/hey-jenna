@@ -4,12 +4,9 @@ type LogMeta = Record<string, unknown>;
 
 @Injectable({ scope: Scope.TRANSIENT })
 export class AppLogger extends ConsoleLogger {
-  customLog(message: string, meta?: LogMeta) {
-    if (!meta || Object.keys(meta).length === 0) {
-      return super.log(message);
-    }
-
-    return super.log(`${message} | meta=${this.safeStringify(meta)}`);
+  customLog(message: string, meta?: LogMeta): string {
+    if (!meta || Object.keys(meta).length === 0) return message;
+    return `${message} | meta=${this.safeStringify(meta)}`;
   }
 
   private safeStringify(value: unknown): string {

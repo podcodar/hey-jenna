@@ -14,16 +14,18 @@ export class UsersService {
   }
 
   async get(): Promise<User[]> {
-    this.logger.customLog('Listing users', {
-      feature: 'users',
-      action: 'list',
-    });
-
+    this.logger.log(
+      this.logger.customLog('Listing users', {
+        feature: 'users',
+        action: 'list',
+      }),
+    );
     const users = await this.prisma.user.findMany();
-
-    this.logger.customLog('Users listed', {
-      count: users.length,
-    });
+    this.logger.log(
+      this.logger.customLog('Users listed', {
+        count: users.length,
+      }),
+    );
     return users;
   }
 
@@ -40,17 +42,21 @@ export class UsersService {
         update: user,
         create: user,
       });
-      this.logger.customLog('User upserted', {
-        id: saved.id,
-        email: saved.email,
-      });
+      this.logger.log(
+        this.logger.customLog('User upserted', {
+          id: saved.id,
+          email: saved.email,
+        }),
+      );
       return saved;
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Unknown error';
-      this.logger.customLog('Upsert failed', {
-        email: user.email,
-        error: message,
-      });
+      this.logger.error(
+        this.logger.customLog('Upsert failed', {
+          email: user.email,
+          error: message,
+        }),
+      );
     }
   }
 }
