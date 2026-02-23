@@ -14,49 +14,23 @@ export class UsersService {
   }
 
   async get(): Promise<User[]> {
-    this.logger.log(
-      this.logger.customLog('Listing users', {
-        feature: 'users',
-        action: 'list',
-      }),
-    );
     const users = await this.prisma.user.findMany();
-    this.logger.log(
-      this.logger.customLog('Users listed', {
-        count: users.length,
-      }),
-    );
+    this.logger.log(`Users fetched successfully. Total users:${users.length}`);
     return users;
   }
-
   async upsert(user: CreateUserDto): Promise<User> {
-    this.logger.customLog('Upserting user', {
-      feature: 'users',
-      action: 'upsert',
-      email: user.email,
-    });
-
+    this.logger.log(`Upserting user with email ${user.email}`);
     try {
-      const saved = await this.prisma.user.upsert({
+      const result = await this.prisma.user.upsert({
         where: { email: user.email },
         update: user,
         create: user,
       });
-      this.logger.log(
-        this.logger.customLog('User upserted', {
-          id: saved.id,
-          email: saved.email,
-        }),
-      );
-      return saved;
-    } catch (err) {
-      const message = err instanceof Error ? err.message : 'Unknown error';
-      this.logger.error(
-        this.logger.customLog('Upsert failed', {
-          email: user.email,
-          error: message,
-        }),
-      );
+      this.logger.log(`User upserted successfully with email ${user.email}`);
+      return result;
+    } catch (error) {
+      this.logger.error(`Failed to upsert user with email ${user.email}`);
+      throw error;
     }
   }
 }
