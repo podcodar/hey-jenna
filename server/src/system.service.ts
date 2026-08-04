@@ -6,14 +6,15 @@ import {
 import { promises as fs } from 'fs';
 import { join, resolve } from 'path';
 import { existsSync } from 'fs';
+import { AppLogger } from './core/logging/app-logger.service';
 
 @Injectable()
 export class SystemService {
   private readonly uploadsDir = join(process.cwd(), 'uploads');
 
-  constructor() {
+  constructor(private readonly logger: AppLogger) {
     this.findOrCreateUserDirectory(this.uploadsDir);
-    console.log('uploadsDir', this.uploadsDir);
+    this.logger.log('uploadsDir', this.uploadsDir);
   }
 
   /**
