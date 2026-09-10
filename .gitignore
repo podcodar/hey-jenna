@@ -22,3 +22,16 @@ lerna-debug.log*
 # temp directory
 .temp
 .tmp
+
+# Uploads & Media Assets
+uploads/
+server/uploads/
+*.mp4
+*.mkv
+*.mov
+*.webm
+*.avi
+*.wav
+*.mp3
+*.part
+*.ytdl
