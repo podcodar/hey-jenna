@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Logger,
   Param,
   Post,
   Query,
@@ -14,6 +15,8 @@ import { CreateUserDto, GetFilesQueryDTO, UserIdDTO } from './users.dto';
 @UsePipes(new ValidationPipe())
 @Controller('users')
 export class UsersController {
+  private readonly logger = new Logger(UsersController.name);
+
   constructor(private readonly usersService: UsersService) {}
 
   @Get()
@@ -27,8 +30,9 @@ export class UsersController {
     @Param() urlParams: UserIdDTO,
     @Query() query: GetFilesQueryDTO,
   ): Promise<User[]> {
-    console.log(query);
-    console.log(urlParams);
+    this.logger.debug(
+      `Query: ${JSON.stringify(query)}, Params: ${JSON.stringify(urlParams)}`,
+    );
 
     return this.usersService.get();
   }
